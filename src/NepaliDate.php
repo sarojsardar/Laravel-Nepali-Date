@@ -93,7 +93,7 @@ class NepaliDate
         2079 => [31, 31, 32, 31, 31, 31, 30, 29, 30, 29, 30, 30],
         2080 => [31, 32, 31, 32, 31, 30, 30, 30, 29, 29, 30, 30],
         2081 => [31, 31, 32, 32, 31, 30, 30, 30, 29, 30, 30, 30],
-        2082 => [30, 32, 31, 32, 31, 30, 30, 30, 29, 30, 30, 30],
+        2082 => [31, 31, 32, 31, 31, 30, 30, 29, 30, 29, 30, 31],
         2083 => [31, 31, 32, 31, 31, 30, 30, 30, 29, 30, 30, 30],
         2084 => [31, 31, 32, 31, 31, 30, 30, 30, 29, 30, 30, 30],
         2085 => [31, 32, 31, 32, 30, 31, 30, 30, 29, 30, 30, 30],
@@ -146,28 +146,58 @@ class NepaliDate
         }
         
         $refDate = Carbon::parse(self::REFERENCE_AD_DATE);
-        $daysDiff = $date->diffInDays($refDate);
         
         [$nepYear, $nepMonth, $nepDay] = self::REFERENCE_BS_DATE;
         
-        while ($daysDiff > 0) {
-            if (!isset(self::$calendarData[$nepYear])) {
-                throw new InvalidArgumentException('Date out of supported range');
-            }
+        if ($date->gte($refDate)) {
+            // Date is after reference date
+            $daysDiff = $refDate->diffInDays($date);
             
-            $daysInMonth = self::$calendarData[$nepYear][$nepMonth - 1];
-            
-            if ($daysDiff >= $daysInMonth) {
-                $daysDiff -= $daysInMonth;
-                $nepMonth++;
-                
-                if ($nepMonth > 12) {
-                    $nepMonth = 1;
-                    $nepYear++;
+            while ($daysDiff > 0) {
+                if (!isset(self::$calendarData[$nepYear])) {
+                    throw new InvalidArgumentException('Date out of supported range');
                 }
-            } else {
-                $nepDay += $daysDiff;
-                $daysDiff = 0;
+                
+                $daysInMonth = self::$calendarData[$nepYear][$nepMonth - 1];
+                $remainingDaysInMonth = $daysInMonth - $nepDay + 1;
+                
+                if ($daysDiff >= $remainingDaysInMonth) {
+                    $daysDiff -= $remainingDaysInMonth;
+                    $nepMonth++;
+                    $nepDay = 1;
+                    
+                    if ($nepMonth > 12) {
+                        $nepMonth = 1;
+                        $nepYear++;
+                    }
+                } else {
+                    $nepDay += $daysDiff;
+                    $daysDiff = 0;
+                }
+            }
+        } else {
+            // Date is before reference date
+            $daysDiff = $date->diffInDays($refDate);
+            
+            while ($daysDiff > 0) {
+                if ($nepDay > $daysDiff) {
+                    $nepDay -= $daysDiff;
+                    $daysDiff = 0;
+                } else {
+                    $daysDiff -= $nepDay;
+                    $nepMonth--;
+                    
+                    if ($nepMonth < 1) {
+                        $nepMonth = 12;
+                        $nepYear--;
+                    }
+                    
+                    if (!isset(self::$calendarData[$nepYear])) {
+                        throw new InvalidArgumentException('Date out of supported range');
+                    }
+                    
+                    $nepDay = self::$calendarData[$nepYear][$nepMonth - 1];
+                }
             }
         }
 
