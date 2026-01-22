@@ -151,18 +151,20 @@ class NepaliDate
         
         if ($date->gte($refDate)) {
             // Date is after reference date
-            $daysDiff = $refDate->diffInDays($date);
+            $daysDiff = $refDate->diffInDays($date) - 1; // Adjust by 1 day
             
-            while ($daysDiff > 0) {
+            while ($daysDiff >= 0) {
                 if (!isset(self::$calendarData[$nepYear])) {
                     throw new InvalidArgumentException('Date out of supported range');
                 }
                 
                 $daysInMonth = self::$calendarData[$nepYear][$nepMonth - 1];
-                $remainingDaysInMonth = $daysInMonth - $nepDay + 1;
                 
-                if ($daysDiff >= $remainingDaysInMonth) {
-                    $daysDiff -= $remainingDaysInMonth;
+                if ($nepDay + $daysDiff <= $daysInMonth) {
+                    $nepDay += $daysDiff;
+                    break;
+                } else {
+                    $daysDiff -= ($daysInMonth - $nepDay + 1);
                     $nepMonth++;
                     $nepDay = 1;
                     
@@ -170,9 +172,6 @@ class NepaliDate
                         $nepMonth = 1;
                         $nepYear++;
                     }
-                } else {
-                    $nepDay += $daysDiff;
-                    $daysDiff = 0;
                 }
             }
         } else {
