@@ -1,4 +1,4 @@
-# Laravel Nepali Date Converter
+# Laravel Nepali Date Converter (Laravel 12+ Compatible)
 
 [![Latest Version](https://img.shields.io/badge/version-1.0.0-blue.svg)](https://github.com/sarojsardar/laravel-nepali-date)
 [![PHP Version](https://img.shields.io/badge/php-8.0%2B-brightgreen.svg)](https://php.net)
