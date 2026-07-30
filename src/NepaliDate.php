@@ -151,7 +151,7 @@ class NepaliDate
         
         if ($date->gte($refDate)) {
             // Date is after reference date
-            $daysDiff = $refDate->diffInDays($date) - 1; // Adjust by 1 day
+            $daysDiff = $refDate->diffInDays($date);
             
             while ($daysDiff >= 0) {
                 if (!isset(self::$calendarData[$nepYear])) {
