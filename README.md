@@ -1,8 +1,8 @@
-# Laravel Nepali Date Converter (Laravel 12+ Compatible)
+# Laravel Nepali Date Converter (Laravel 13+ Compatible)
 
 [![Latest Version](https://img.shields.io/badge/version-1.0.0-blue.svg)](https://github.com/sarojsardar/laravel-nepali-date)
 [![PHP Version](https://img.shields.io/badge/php-8.0%2B-brightgreen.svg)](https://php.net)
-[![Laravel Version](https://img.shields.io/badge/laravel-9%2B-red.svg)](https://laravel.com)
+[![Laravel Version](https://img.shields.io/badge/laravel-13%2B-red.svg)](https://laravel.com)
 [![License](https://img.shields.io/badge/license-MIT-green.svg)](LICENSE)
 
 A comprehensive Laravel package for converting English (Gregorian) dates to Nepali (Bikram Sambat) dates with full localization support.
@@ -19,7 +19,7 @@ A comprehensive Laravel package for converting English (Gregorian) dates to Nepa
 - ✅ **Error Handling** - Comprehensive validation and error handling
 - ✅ **Laravel Integration** - Facade, Service Provider, and Helper functions
 - ✅ **Modern PHP** - PHP 8.0+ with strict typing
-- ✅ **Laravel Compatibility** - Laravel 9, 10, 11, 12 support
+- ✅ **Laravel Compatibility** - Laravel 9, 10, 11, 12, 13 support
 
 ## 📦 Installation
 
